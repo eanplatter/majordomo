@@ -1,5 +1,5 @@
-# 3SC Extension
-A Chrome extension for 3 Stand Code assignments and help.
+# Majordomo
+Bridge the gap between Pivotal Tracker and Github.
 
 This project is **not ready** for end users.
 
