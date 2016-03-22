@@ -1,0 +1,21 @@
+{
+  "name": "majordomo",
+  "version": "0.0.1",
+  "description": "A chrome extension to bridge the gap between pivotal and github.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eanplatter/majordomo.git"
+  },
+  "keywords": [
+    "3",
+    "Strand",
+    "Code",
+    "extension"
+  ],
+  "author": "Ean Platter <eanplatter@gmail.com>",
+  "license": "MIT",
+}
