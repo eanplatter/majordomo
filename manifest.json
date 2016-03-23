@@ -15,7 +15,7 @@
       "38": "images/icon38.png"
     },
     "default_title": "Majordomo",
-    "default_popup": "html/popup.html"
+    "default_popup": "dist/index.html"
   },
   "author": "Ean Platter eanplatter@gmail.com",
   "homepage_url": "https://github.com/eanplatter/majordomo",
@@ -26,7 +26,8 @@
     "page": "html/options.html"
   },
   "permissions": [
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "short_name": "majordomo"
 }
