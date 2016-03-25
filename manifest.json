@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Majordomo",
+  "name": "Traxxor",
   "version": "0.0.1",
   "version_name": "alpha",
   "description": "A plain text description",
@@ -14,7 +14,7 @@
       "19": "images/icon19.png",
       "38": "images/icon38.png"
     },
-    "default_title": "Majordomo",
+    "default_title": "Traxxor",
     "default_popup": "dist/index.html"
   },
   "author": "Ean Platter eanplatter@gmail.com",
@@ -29,5 +29,5 @@
     "tabs",
     "storage"
   ],
-  "short_name": "majordomo"
+  "short_name": "traxxor"
 }
