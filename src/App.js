@@ -2,6 +2,8 @@ import React from 'react'
 import { render } from 'react-dom'
 import axios from 'axios'
 import Login from './components/Login'
+import Story from './components/Story'
+import Filter from './components/Filter'
 
 class App extends React.Component {
   state = {
@@ -9,6 +11,7 @@ class App extends React.Component {
     showForm: false,
     data: [],
     error: null,
+    filterText: '',
   }
 
   componentDidMount() {
@@ -23,7 +26,8 @@ class App extends React.Component {
             response => {
               this.setState({
                 data: response.data,
-                token: res.token
+                token: res.token,
+                showForm: false,
               })
             },
             err => {
@@ -40,8 +44,20 @@ class App extends React.Component {
     })
   }
 
+  toggleForm() {
+    this.setState({
+      showForm: !this.state.showForm,
+    })
+  }
+
+  updateFilter(filterText) {
+    this.setState({
+      filterText,
+    })
+  }
+
   renderApp() {
-    const data = this.state.data.map((item, index) => {
+    const stories = this.state.data.map((item, index) => {
       if (item.story_type === 'feature') {
         item.icon = 'star yellow'
       } else if (item.story_type === 'chore') {
@@ -49,51 +65,19 @@ class App extends React.Component {
       } else if (item.story_type === 'bug') {
         item.icon = 'bug red'
       }
-      return (
-        <div
-          key={item.id}
-          className='ui card'
-        >
-          <div className='content'>
-            <div className='header'>
-              <i className={`icon ${item.icon} right floated`} />
-            </div>
-            <div className='meta'>
-              {item.id}
-            </div>
-            <div className='description'>
-              {item.name}
-            </div>
-          </div>
-          <div className='extra content'>
-            <div className='ui three buttons' style={{margin: '10px auto'}}>
-              <button className='ui tiny icon blue basic button'>
-                <i className='icon copy' />
-              </button>
-              <button className='ui tiny icon red basic button'>
-                <i className='icon arrow up' />
-              </button>
-              <button className='ui tiny icon green basic button'>
-                <i className='icon bomb' />
-              </button>
-            </div>
-          </div>
-        </div>
-      )
+      const name = item.name.toLowerCase()
+      const filterText = this.state.filterText.toLowerCase()
+      if (name.indexOf(filterText) > -1) {
+        return <Story story={ item } key={ item.id } />
+      }
     })
     return (
-      <div
-        style={{
-          height: 400,
-          width: 400,
-          fontSize: 13,
-          margin: 10,
-        }}
-        className='ui container'
-      >
-        <h1 style={{color: '#D6D6D6', textAlign: 'center',}}>Current Stories</h1>
-        <div className='ui cards'>
-          {data}
+      <div>
+        <div className='ui hidden divider' />
+        <h1 style={{color: '#424242', textAlign: 'center'}}>Current Stories</h1>
+        <Filter updateFilter={ ::this.updateFilter } />
+        <div className='ui relaxed divided list'>
+          { stories }
         </div>
       </div>
     )
@@ -101,15 +85,15 @@ class App extends React.Component {
 
   renderLogin() {
     return (
-      <div style={{height: 400, width: 400}} className='ui container'>
-        <Login />
+      <div className='ui container'>
+        <Login toggleForm={ ::this.toggleForm } />
       </div>
     )
   }
 
   render() {
-    console.log('data', this.state.data)
-    return this.state.token ? this.renderApp() : this.renderLogin()
+    console.log('filterText', this.state.filterText)
+    return this.state.showForm || this.state.token ? this.renderApp() : this.renderLogin()
   }
 }
 

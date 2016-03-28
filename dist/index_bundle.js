@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cf37c20868d8f6f972a8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c53c4d90c746d16915a2"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -8049,6 +8049,14 @@
 
 	var _Login2 = _interopRequireDefault(_Login);
 
+	var _Story = __webpack_require__(253);
+
+	var _Story2 = _interopRequireDefault(_Story);
+
+	var _Filter = __webpack_require__(254);
+
+	var _Filter2 = _interopRequireDefault(_Filter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -8077,7 +8085,8 @@
 	      }),
 	      showForm: false,
 	      data: [],
-	      error: null
+	      error: null,
+	      filterText: ''
 	    }, _temp), _possibleConstructorReturn(_this, _ret);
 	  }
 
@@ -8095,7 +8104,8 @@
 	          instance.get('/services/v5/projects/1436906/stories?filter=state:started').then(function (response) {
 	            _this2.setState({
 	              data: response.data,
-	              token: res.token
+	              token: res.token,
+	              showForm: false
 	            });
 	          }, function (err) {
 	            _this2.setState({
@@ -8110,9 +8120,25 @@
 	      });
 	    }
 	  }, {
+	    key: 'toggleForm',
+	    value: function toggleForm() {
+	      this.setState({
+	        showForm: !this.state.showForm
+	      });
+	    }
+	  }, {
+	    key: 'updateFilter',
+	    value: function updateFilter(filterText) {
+	      this.setState({
+	        filterText: filterText
+	      });
+	    }
+	  }, {
 	    key: 'renderApp',
 	    value: function renderApp() {
-	      var data = this.state.data.map(function (item, index) {
+	      var _this3 = this;
+
+	      var stories = this.state.data.map(function (item, index) {
 	        if (item.story_type === 'feature') {
 	          item.icon = 'star yellow';
 	        } else if (item.story_type === 'chore') {
@@ -8120,76 +8146,26 @@
 	        } else if (item.story_type === 'bug') {
 	          item.icon = 'bug red';
 	        }
-	        return _react2.default.createElement(
-	          'div',
-	          {
-	            key: item.id,
-	            className: 'ui card'
-	          },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'content' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'header' },
-	              _react2.default.createElement('i', { className: 'icon ' + item.icon + ' right floated' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'meta' },
-	              item.id
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'description' },
-	              item.name
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'extra content' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'ui three buttons', style: { margin: '10px auto' } },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'ui tiny icon blue basic button' },
-	                _react2.default.createElement('i', { className: 'icon copy' })
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'ui tiny icon red basic button' },
-	                _react2.default.createElement('i', { className: 'icon arrow up' })
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'ui tiny icon green basic button' },
-	                _react2.default.createElement('i', { className: 'icon bomb' })
-	              )
-	            )
-	          )
-	        );
+	        var name = item.name.toLowerCase();
+	        var filterText = _this3.state.filterText.toLowerCase();
+	        if (name.indexOf(filterText) > -1) {
+	          return _react2.default.createElement(_Story2.default, { story: item, key: item.id });
+	        }
 	      });
 	      return _react2.default.createElement(
 	        'div',
-	        {
-	          style: {
-	            height: 400,
-	            width: 400,
-	            fontSize: 13,
-	            margin: 10
-	          },
-	          className: 'ui container'
-	        },
+	        null,
+	        _react2.default.createElement('div', { className: 'ui hidden divider' }),
 	        _react2.default.createElement(
 	          'h1',
-	          { style: { color: '#D6D6D6', textAlign: 'center' } },
+	          { style: { color: '#424242', textAlign: 'center' } },
 	          'Current Stories'
 	        ),
+	        _react2.default.createElement(_Filter2.default, { updateFilter: this.updateFilter.bind(this) }),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'ui cards' },
-	          data
+	          { className: 'ui relaxed divided list' },
+	          stories
 	        )
 	      );
 	    }
@@ -8198,15 +8174,15 @@
 	    value: function renderLogin() {
 	      return _react2.default.createElement(
 	        'div',
-	        { style: { height: 400, width: 400 }, className: 'ui container' },
-	        _react2.default.createElement(_Login2.default, null)
+	        { className: 'ui container' },
+	        _react2.default.createElement(_Login2.default, { toggleForm: this.toggleForm.bind(this) })
 	      );
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('data', this.state.data);
-	      return this.state.token ? this.renderApp() : this.renderLogin();
+	      console.log('filterText', this.state.filterText);
+	      return this.state.showForm || this.state.token ? this.renderApp() : this.renderLogin();
 	    }
 	  }]);
 
@@ -28870,9 +28846,7 @@
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
 	      chrome.storage.local.set({ token: this.state.token });
-	      this.setState({
-	        showForm: false
-	      });
+	      this.props.toggleForm();
 	    }
 	  }, {
 	    key: 'render',
@@ -28880,6 +28854,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { style: { textAlign: 'center' } },
+	        _react2.default.createElement('div', { className: 'ui hidden divider' }),
 	        _react2.default.createElement('img', { src: _pivotalLogo2.default, style: { maxWidth: '200px' } }),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
@@ -28900,30 +28875,19 @@
 	              ' here'
 	            )
 	          ),
-	          _react2.default.createElement('input', {
-	            style: {
-	              display: 'block',
-	              margin: '10px auto',
-	              padding: '7px',
-	              borderRadius: '2px',
-	              outline: 'none',
-	              boxShadow: 'none',
-	              border: 'none',
-	              width: '300px'
-	            },
-	            placeholder: 'put that token here!',
-	            onChange: this.handleChange.bind(this)
-	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'ui input fluid focus' },
+	            _react2.default.createElement('input', {
+	              placeholder: 'put that token here!',
+	              onChange: this.handleChange.bind(this)
+	            })
+	          ),
+	          _react2.default.createElement('div', { className: 'ui hidden divider' }),
 	          _react2.default.createElement(
 	            'button',
 	            {
-	              style: {
-	                width: '300px',
-	                padding: '10px',
-	                borderRadius: '2px',
-	                background: '#D6D6D6',
-	                border: '1px solid #000'
-	              },
+	              className: 'ui button fluid',
 	              onClick: this.handleSubmit.bind(this)
 	            },
 	            'Save your token'
@@ -28936,6 +28900,9 @@
 	  return Login;
 	}(_react2.default.Component);
 
+	Login.propTypes = {
+	  toggleForm: _react.PropTypes.func.isRequired
+	};
 	exports.default = Login;
 
 /***/ },
@@ -28943,6 +28910,149 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__.p + "8fddad8e68f637480681b094357c97cc.png";
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(77);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Story = function (_React$Component) {
+	  _inherits(Story, _React$Component);
+
+	  function Story() {
+	    _classCallCheck(this, Story);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Story).apply(this, arguments));
+	  }
+
+	  _createClass(Story, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'item', style: { background: '#D6D6D6' } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ui container' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'left floated content' },
+	            _react2.default.createElement('i', { className: 'icon ' + this.props.story.icon })
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'right floated content' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'ui button' },
+	              'Inject'
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'content' },
+	            _react2.default.createElement(
+	              'a',
+	              {
+	                target: '_blank',
+	                href: this.props.story.url
+	              },
+	              this.props.story.name
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Story;
+	}(_react2.default.Component);
+
+	Story.propTypes = {
+	  story: _react.PropTypes.object
+	};
+	exports.default = Story;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(77);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Filter = function (_React$Component) {
+	  _inherits(Filter, _React$Component);
+
+	  function Filter() {
+	    _classCallCheck(this, Filter);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Filter).apply(this, arguments));
+	  }
+
+	  _createClass(Filter, [{
+	    key: 'handleChange',
+	    value: function handleChange() {
+	      this.props.updateFilter(this.refs.filter.value);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'ui container' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ui icon fluid input' },
+	          _react2.default.createElement('input', { onChange: this.handleChange.bind(this), ref: 'filter', placeholder: 'Filter...' }),
+	          _react2.default.createElement('i', { className: 'filter icon' })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Filter;
+	}(_react2.default.Component);
+
+	Filter.propTypes = {
+	  updateFilter: _react.PropTypes.func.isRequired
+	};
+	exports.default = Filter;
 
 /***/ }
 /******/ ]);

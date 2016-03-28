@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import logo from '../../images/pivotalLogo.png'
 
 class Login extends React.Component {
+  static propTypes = {
+    toggleForm: PropTypes.func.isRequired,
+  }
+
   state = {
     token: '',
   }
@@ -16,42 +20,28 @@ class Login extends React.Component {
   handleSubmit(e) {
     e.preventDefault()
     chrome.storage.local.set({token: this.state.token})
-    this.setState({
-      showForm: false,
-    })
+    this.props.toggleForm()
   }
 
   render() {
     return (
       <div style={{textAlign: 'center'}}>
+        <div className='ui hidden divider' />
         <img src={logo} style={{maxWidth: '200px'}} /><br />
         <div style={{padding: '20px', color: '#fff', textAlign: 'center'}}>
           <h3>Please enter your Pivotal Tracker token.</h3>
           <p>To find your token, go <a target='_blank' href='https://www.pivotaltracker.com/profile'> here</a></p>
-          <input
-            style={{
-              display: 'block',
-              margin: '10px auto',
-              padding: '7px',
-              borderRadius: '2px',
-              outline: 'none',
-              boxShadow: 'none',
-              border: 'none',
-              width: '300px',
-            }}
-            placeholder='put that token here!'
-            onChange={this.handleChange.bind(this)}
-          />
+          <div className='ui input fluid focus'>
+            <input
+              placeholder='put that token here!'
+              onChange={this.handleChange.bind(this)}
+              />
+          </div>
+          <div className='ui hidden divider' />
           <button
-            style={{
-              width: '300px',
-              padding: '10px',
-              borderRadius: '2px',
-              background: '#D6D6D6',
-              border: '1px solid #000'
-            }}
+            className='ui button fluid'
             onClick={this.handleSubmit.bind(this)}
-          >
+            >
             Save your token
           </button>
         </div>
