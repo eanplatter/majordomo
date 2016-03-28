@@ -9,12 +9,13 @@ class Story extends React.Component {
       <div className='item' style={{background: '#D6D6D6'}}>
         <div className='ui container'>
           <div className='left floated content'>
+            <div className='ui icon basic button'>
+              <i className='icon double large angle left' />
+              <i className='icon large github' />
+            </div>
+          </div>
+          <div className='top aligned content'>
             <i className={ `icon ${this.props.story.icon}` } />
-          </div>
-          <div className='right floated content'>
-            <div className='ui button'>Inject</div>
-          </div>
-          <div className='content'>
               <a
                 target='_blank'
                 href={ this.props.story.url }
