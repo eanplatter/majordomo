@@ -21,7 +21,7 @@ class App extends React.Component {
           baseURL: 'https://www.pivotaltracker.com',
           headers: {'X-TrackerToken': res.token}
         })
-        instance.get('/services/v5/projects/1436906/stories?filter=state:started')
+        instance.get('/services/v5/projects/1436906/stories?filter=state:started,unstarted')
           .then(
             response => {
               this.setState({
@@ -57,27 +57,42 @@ class App extends React.Component {
   }
 
   renderApp() {
-    const stories = this.state.data.map((item, index) => {
+    const current = []
+    const backlog = []
+    this.state.data.map((item, index) => {
       if (item.story_type === 'feature') {
         item.icon = 'star yellow'
       } else if (item.story_type === 'chore') {
         item.icon = 'setting grey'
       } else if (item.story_type === 'bug') {
         item.icon = 'bug red'
+      } else if (item.story_type === 'release') {
+        item.icon = 'flag green'
       }
+
       const name = item.name.toLowerCase()
       const filterText = this.state.filterText.toLowerCase()
       if (name.indexOf(filterText) > -1) {
-        return <Story story={ item } key={ item.id } />
+        if (item.current_state === 'started') {
+          current.push(<Story story={ item } key={ item.id } />)
+        } else {
+          backlog.push(<Story story={ item } key={ item.id } />)
+        }
       }
     })
+
     return (
-      <div>
+      <div className='ui container'>
         <div className='ui hidden divider' />
-        <h1 style={{color: '#424242', textAlign: 'center'}}>Current Stories</h1>
+        <h1 style={{color: '#424242', textAlign: 'center'}}>Current / Backlog</h1>
         <Filter updateFilter={ ::this.updateFilter } />
+        <h3>Current</h3>
         <div className='ui relaxed divided list'>
-          { stories }
+          { current }
+        </div>
+        <h3>Backlog</h3>
+        <div className='ui relaxed divided list'>
+          { backlog }
         </div>
       </div>
     )

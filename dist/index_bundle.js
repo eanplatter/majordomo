@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "e9c6287d470bbdb44ef7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "fe70f381585854172e58"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -649,7 +649,7 @@
 	            baseURL: 'https://www.pivotaltracker.com',
 	            headers: { 'X-TrackerToken': res.token }
 	          });
-	          instance.get('/services/v5/projects/1436906/stories?filter=state:started').then(function (response) {
+	          instance.get('/services/v5/projects/1436906/stories?filter=state:started,unstarted').then(function (response) {
 	            _this2.setState({
 	              data: response.data,
 	              token: res.token,
@@ -686,34 +686,59 @@
 	    value: function renderApp() {
 	      var _this3 = this;
 
-	      var stories = this.state.data.map(function (item, index) {
+	      var current = [];
+	      var backlog = [];
+	      this.state.data.map(function (item, index) {
 	        if (item.story_type === 'feature') {
 	          item.icon = 'star yellow';
 	        } else if (item.story_type === 'chore') {
 	          item.icon = 'setting grey';
 	        } else if (item.story_type === 'bug') {
 	          item.icon = 'bug red';
+	        } else if (item.story_type === 'release') {
+	          item.icon = 'flag green';
 	        }
+
 	        var name = item.name.toLowerCase();
 	        var filterText = _this3.state.filterText.toLowerCase();
 	        if (name.indexOf(filterText) > -1) {
-	          return _react2.default.createElement(_Story2.default, { story: item, key: item.id });
+	          if (item.current_state === 'started') {
+	            current.push(_react2.default.createElement(_Story2.default, { story: item, key: item.id }));
+	          } else {
+	            backlog.push(_react2.default.createElement(_Story2.default, { story: item, key: item.id }));
+	          }
 	        }
 	      });
+
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'ui container' },
 	        _react2.default.createElement('div', { className: 'ui hidden divider' }),
 	        _react2.default.createElement(
 	          'h1',
 	          { style: { color: '#424242', textAlign: 'center' } },
-	          'Current Stories'
+	          'Current / Backlog'
 	        ),
 	        _react2.default.createElement(_Filter2.default, { updateFilter: this.updateFilter.bind(this) }),
 	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Current'
+	        ),
+	        _react2.default.createElement(
 	          'div',
 	          { className: 'ui relaxed divided list' },
-	          stories
+	          current
+	        ),
+	        _react2.default.createElement(
+	          'h3',
+	          null,
+	          'Backlog'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'ui relaxed divided list' },
+	          backlog
 	        )
 	      );
 	    }
@@ -21554,7 +21579,7 @@
 /* 178 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__.p + "8fddad8e68f637480681b094357c97cc.png";
+	module.exports = __webpack_require__.p + "de3a66762abf94e6a0bf36a71916fcfe.png";
 
 /***/ },
 /* 179 */
@@ -21594,7 +21619,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'item', style: { background: '#D6D6D6' } },
+	        { className: 'item', style: { background: '#fff' } },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'ui container' },
@@ -21610,7 +21635,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'top aligned content' },
+	            { className: 'middle aligned content' },
 	            _react2.default.createElement('i', { className: 'icon ' + this.props.story.icon }),
 	            _react2.default.createElement(
 	              'a',

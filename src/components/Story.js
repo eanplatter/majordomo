@@ -6,7 +6,7 @@ class Story extends React.Component {
   }
   render() {
     return (
-      <div className='item' style={{background: '#D6D6D6'}}>
+      <div className='item' style={{background: '#fff'}}>
         <div className='ui container'>
           <div className='left floated content'>
             <div className='ui icon basic button'>
@@ -14,7 +14,7 @@ class Story extends React.Component {
               <i className='icon large github' />
             </div>
           </div>
-          <div className='top aligned content'>
+          <div className='middle aligned content'>
             <i className={ `icon ${this.props.story.icon}` } />
               <a
                 target='_blank'
