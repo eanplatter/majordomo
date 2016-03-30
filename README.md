@@ -1,4 +1,4 @@
-# Majordomo
+# Trax
 Bridge the gap between Pivotal Tracker and Github.
 
 This project is **not ready** for end users.
