@@ -6,7 +6,7 @@ class Story extends React.Component {
   }
   render() {
     return (
-      <div className='item' style={{background: '#fff'}}>
+      <div className='item'>
         <div className='ui container'>
           <div className='left floated content'>
             <div className='ui icon basic button'>

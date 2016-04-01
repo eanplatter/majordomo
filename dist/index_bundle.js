@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fe70f381585854172e58"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "b59421ec753703be5ab7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -21529,7 +21529,7 @@
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
 	          'div',
-	          { style: { padding: '20px', color: '#fff', textAlign: 'center' } },
+	          { style: { padding: '20px', textAlign: 'center' } },
 	          _react2.default.createElement(
 	            'h3',
 	            null,
@@ -21619,7 +21619,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'item', style: { background: '#fff' } },
+	        { className: 'item' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'ui container' },

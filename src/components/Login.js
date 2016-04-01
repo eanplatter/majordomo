@@ -28,7 +28,7 @@ class Login extends React.Component {
       <div style={{textAlign: 'center'}}>
         <div className='ui hidden divider' />
         <img src={logo} style={{maxWidth: '200px'}} /><br />
-        <div style={{padding: '20px', color: '#fff', textAlign: 'center'}}>
+        <div style={{padding: '20px', textAlign: 'center'}}>
           <h3>Please enter your Pivotal Tracker token.</h3>
           <p>To find your token, go <a target='_blank' href='https://www.pivotaltracker.com/profile'> here</a></p>
           <div className='ui input fluid focus'>
