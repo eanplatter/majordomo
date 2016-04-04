@@ -4,6 +4,7 @@
   "description": "A chrome extension to bridge the gap between pivotal and github.",
   "main": "index.js",
   "scripts": {
+    "start": "nodemon --watch src --exec npm run enclave-serve",
     "enclave-serve": "enclave",
     "enclave-build": "node node_modules/enclave/src/build.js",
     "enclave-eject": "node node_modules/enclave/src/eject/index.js",

@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "b59421ec753703be5ab7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a0de998d0ba745658276"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -21615,6 +21615,14 @@
 	  }
 
 	  _createClass(Story, [{
+	    key: 'handleClick',
+	    value: function handleClick() {
+	      console.log('whut');
+	      chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
+	        console.log(tabs[0]);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -21628,7 +21636,7 @@
 	            { className: 'left floated content' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'ui icon basic button' },
+	              { className: 'ui icon basic button', onClick: this.handleClick.bind(this) },
 	              _react2.default.createElement('i', { className: 'icon double large angle left' }),
 	              _react2.default.createElement('i', { className: 'icon large github' })
 	            )
