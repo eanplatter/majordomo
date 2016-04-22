@@ -25,9 +25,18 @@
     "chrome_style": true,
     "page": "html/options.html"
   },
+  "content_scripts": [
+    {
+      "matches": ["http://*/", "https://*/"],
+      "js": ["injection.js"]
+    }
+  ],
   "permissions": [
     "tabs",
-    "storage"
-  ],
+    "notifications",
+    "storage",
+    "http://*/",
+    "https://*/"
+    ],
   "short_name": "traxxor"
 }

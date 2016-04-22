@@ -54,7 +54,7 @@
 /******/ 	
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a0de998d0ba745658276"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "963a938d3be36cf54e8c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -605,6 +605,10 @@
 
 	var _Filter2 = _interopRequireDefault(_Filter);
 
+	var _injection = __webpack_require__(181);
+
+	var _injection2 = _interopRequireDefault(_injection);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -643,6 +647,7 @@
 	    value: function componentDidMount() {
 	      var _this2 = this;
 
+	      (0, _injection2.default)();
 	      chrome.storage.local.get('token', function (res) {
 	        if (res) {
 	          var instance = _axios2.default.create({
@@ -754,7 +759,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log('filterText', this.state.filterText);
 	      return this.state.showForm || this.state.token ? this.renderApp() : this.renderLogin();
 	    }
 	  }]);
@@ -21728,6 +21732,16 @@
 	  updateFilter: _react.PropTypes.func.isRequired
 	};
 	exports.default = Filter;
+
+/***/ },
+/* 181 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	module.exports = chrome.tabs.executeScript({
+	    code: 'document.body.style.backgroundColor="red"'
+	});
 
 /***/ }
 /******/ ]);

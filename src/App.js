@@ -4,7 +4,7 @@ import axios from 'axios'
 import Login from './components/Login'
 import Story from './components/Story'
 import Filter from './components/Filter'
-
+import doThing from '../injection'
 class App extends React.Component {
   state = {
     token: chrome.storage.local.get('token', function (res) { return res.token }),
@@ -15,6 +15,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
+    doThing()
     chrome.storage.local.get('token', (res) => {
       if (res) {
         var instance = axios.create({
@@ -107,7 +108,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('filterText', this.state.filterText)
     return this.state.showForm || this.state.token ? this.renderApp() : this.renderLogin()
   }
 }
