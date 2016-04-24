@@ -1,3 +1,7 @@
+function doThing() {
+  return 'document.body.style.backgroundColor="red"'
+}
+
 module.exports = chrome.tabs.executeScript({
-    code: 'document.body.style.backgroundColor="red"'
-  });
+    code: doThing()
+});
